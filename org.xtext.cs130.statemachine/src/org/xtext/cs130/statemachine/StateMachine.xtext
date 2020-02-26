@@ -1,0 +1,46 @@
+grammar org.xtext.cs130.statemachine.StateMachine with org.eclipse.xtext.common.Terminals
+
+generate stateMachine "http://www.xtext.org/cs130/statemachine/StateMachine"
+
+StateMachine:
+ 'statemachine' name=ID '{'
+ 	vardefs=Variables
+ 	eventdefs=Events
+ 	statedefs=States
+ '}';
+
+Variables:
+ {Variables} 'variables' '{'
+ 	(vars+=Variable)*
+ '}';
+
+Variable:
+ 'variable' name=ID;
+
+Events:
+ {Events} 'events' '{'
+ 	(events+=Event)*
+ '}';
+
+Event:
+ 'event' name=ID;
+
+States:	
+ 'states' '{'
+    'start' start=[State] ';'
+ 	(states+=State)+
+ '}';
+
+State:
+ 'state' name=ID '{'
+	(transitions+=Transition)*
+ '}';
+
+Transition:
+	'on' event=[Event] ('if' condition=Condition)? '=>' target=[State];
+
+Condition:
+	'{' variable=[Variable] op=COMP value=INT '}';
+
+terminal COMP:
+	('=='|'!='|'<'|'>'|'<='|'>=');
