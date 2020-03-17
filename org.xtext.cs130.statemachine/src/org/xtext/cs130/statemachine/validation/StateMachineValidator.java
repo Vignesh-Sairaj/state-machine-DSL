@@ -30,13 +30,5 @@ public class StateMachineValidator extends AbstractStateMachineValidator {
 							REPEAT_EVENT);
 			}
 		}
-		
-//		Rule rule  = (Rule) destination.eContainer();
-//		if (destination.getTarget().equals(rule.getSource())) {
-//			error("Self transitions are not allowed", // this is the error message
-//					NavigationRulesPackage.Literals.DESTINATION__TARGET, // this is the feature to highlight with a problem
-//					SELF_TRANSITION); // this is an error code
-//		}
-	}
-	
+	}	
 }
