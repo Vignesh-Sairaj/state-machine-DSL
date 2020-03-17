@@ -18,7 +18,7 @@ import org.xtext.cs130.statemachine.stateMachine.StateMachine
 class StateMachineGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		for (sm : resource.allContents.toIterable.filter(StateMachine)) {
-		   fsa.generateFile('''«sm.name»''' + ".java", sm.toCode)
+		   fsa.generateFile('''«sm.name.toFirstUpper»StateMachine''' + ".java", sm.toCode)
 		}
 	}
 	
@@ -66,7 +66,7 @@ class StateMachineGenerator extends AbstractGenerator {
 	
 	«ENDFOR»
 
-	class «sm.name.toFirstUpper»StateMachine {
+	public class «sm.name.toFirstUpper»StateMachine {
 		«FOR v : sm.vardefs.vars»
 		int «v.name» = 0;
 		«ENDFOR»

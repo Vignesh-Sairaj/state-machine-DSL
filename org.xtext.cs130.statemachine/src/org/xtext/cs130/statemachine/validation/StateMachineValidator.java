@@ -3,6 +3,10 @@
  */
 package org.xtext.cs130.statemachine.validation;
 
+import org.eclipse.xtext.validation.Check;
+//import org.xtext.cs130.statemachine.stateMachine.State; // Don't ask me why
+import org.xtext.cs130.statemachine.stateMachine.Transition;
+import org.xtext.cs130.statemachine.stateMachine.StateMachinePackage;
 
 /**
  * This class contains custom validation rules. 
@@ -11,15 +15,28 @@ package org.xtext.cs130.statemachine.validation;
  */
 public class StateMachineValidator extends AbstractStateMachineValidator {
 	
-//	public static final INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	public void checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.getName().charAt(0))) {
-//			warning("Name should start with a capital",
-//					StateMachinePackage.Literals.GREETING__NAME,
-//					INVALID_NAME);
+	public static final String REPEAT_EVENT = "RepeatedEvent";
+
+	@Check
+	public void checkRepeatedEvent(Transition transition) {
+		org.xtext.cs130.statemachine.stateMachine.State state = 
+				(org.xtext.cs130.statemachine.stateMachine.State) transition.eContainer();
+		
+		for(Transition other_transition : state.getTransitions()) {
+			if(! transition.equals(other_transition)) {
+				if(transition.getEvent().equals(other_transition.getEvent()))
+					error("Transitions cannot have same event",
+							StateMachinePackage.Literals.TRANSITION__EVENT,
+							REPEAT_EVENT);
+			}
+		}
+		
+//		Rule rule  = (Rule) destination.eContainer();
+//		if (destination.getTarget().equals(rule.getSource())) {
+//			error("Self transitions are not allowed", // this is the error message
+//					NavigationRulesPackage.Literals.DESTINATION__TARGET, // this is the feature to highlight with a problem
+//					SELF_TRANSITION); // this is an error code
 //		}
-//	}
+	}
 	
 }
